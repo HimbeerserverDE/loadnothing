@@ -5,9 +5,9 @@ call boot
 
 ; Print AL register
 print_al:
-	mov ah, 0x0e
-	mov bh, 0x00
-	mov bl, 0x07
+	mov ah, 0x0e ; TTY output
+	mov bh, 0x00 ; Page 0
+	mov bl, 0x07 ; Color: Light grey on black background
 	int 0x10
 
 	ret
