@@ -1,6 +1,9 @@
 [bits 16]
 [org 0x7c00]
 
+%define STAGE2START 0x7e00
+%define STAGE2SIZE 0xFF
+
 ; Initialize registers
 xor ax, ax
 mov ds, ax
@@ -33,6 +36,13 @@ print_bytes_si_loop:
 
 	ret
 
+stage2_error:
+	mov ch, 33          ; Our string is 33 characters long
+	mov si, error
+	call print_bytes_si
+
+	jmp $               ; Infinite loop
+
 ; Main
 boot:
 	; Clear the screen
@@ -56,8 +66,23 @@ boot:
 	mov si, hello
 	call print_bytes_si
 
-	jmp $               ; Infinite loop
+	mov ah, 0x02        ; Read sectors
+	mov al, STAGE2SIZE  ; Stage 2 size (16 MiB) in sectors
+	xor ch, ch          ; Cylinder 0
+	mov cl, 2           ; Second sector, they start at 1
+	xor dh, dh          ; Head 0
+	xor dl, dl          ; Drive 0
+	mov bx, STAGE2START ; Memory address to load stage 2 into
+	int 0x13
 
-hello db 'Welcome to loadnothing stage 1!', 13, 10                   ; \r\n
+	jc stage2_error     ; Carry flag is set if there was an error
+
+	cmp al, STAGE2SIZE  ; Have we read as many sectors as we requested?
+	jne stage2_error
+
+	jmp STAGE2START     ; Hand over control to stage 2
+
+hello db 'Welcome to loadnothing stage 1!', 13, 10 ; \r\n
+error db 'Error reading stage 2 from disk', 13, 10 ; \r\n
 
 times (446 - ($ - $$)) db 0x00
