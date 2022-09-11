@@ -160,3 +160,5 @@ boot:
 hello db 'foo', 13, 10                   ; \r\n
 apm_err db 'APM Error'
 paktc db 'Press any key to continue... '
+
+times (446 - ($ - $$)) db 0x00
