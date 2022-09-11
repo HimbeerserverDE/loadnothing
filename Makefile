@@ -8,7 +8,7 @@ magic.bin:
 	echo -en "\x55\xAA" > magic.bin
 
 stage2/target/x86_64-unknown-none/debug/stage2:
-	cd stage2 && cargo build
+	cd stage2 && cargo build --target x86_64-unknown-none
 
 nothing.img: magic.bin stage1/boot.bin stage2/target/x86_64-unknown-none/debug/stage2
 	dd if=/dev/zero of=nothing.img bs=2M count=1
