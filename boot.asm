@@ -5,7 +5,7 @@ call boot
 
 ; Print AL register
 print_al:
-	mov ah, 0x0E
+	mov ah, 0x0e
 	mov bh, 0x00
 	mov bl, 0x07
 	int 0x10
