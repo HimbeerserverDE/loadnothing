@@ -1,6 +1,12 @@
 [bits 16]
 [org 0x7c00]
 
+; Initialize registers
+xor ax, ax
+mov ds, ax
+mov es, ax
+mov bx, 0x8000
+
 call boot
 
 ; Print al register
