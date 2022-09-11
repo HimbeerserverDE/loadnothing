@@ -1,11 +1,11 @@
 default_target: vm
 .PHONY: vm clean
 
-magic.bin:
-	echo -en "\x55\xAA" > magic.bin
-
 stage1/boot.bin: stage1/boot.asm
 	nasm -f bin -o stage1/boot.bin stage1/boot.asm
+
+magic.bin:
+	echo -en "\x55\xAA" > magic.bin
 
 nothing.img: magic.bin stage1/boot.bin
 	dd if=/dev/zero of=nothing.img bs=2M count=1
