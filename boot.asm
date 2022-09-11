@@ -12,15 +12,14 @@ print_al:
 
 	ret
 
-; Call print_al on all characters in SI
-; SI must be null terminated
+; Call print_al on all characters in si
+; si must be null terminated
 print_bytes_si:
 	mov cl, 0 ; Start with iteration 0 - equivalent of int i = 0
 print_bytes_si_loop:
-	mov al, [si]
+	lodsb                  ; Load next characet of si into al
 	call print_al
 
-	inc si
 	inc cl
 
 	cmp cl, ch
