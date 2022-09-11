@@ -7,7 +7,7 @@ stage1/boot.bin: stage1/boot.asm
 magic.bin:
 	echo -en "\x55\xAA" > magic.bin
 
-stage2/target/x86_64-loadnothing/debug/stage2:
+stage2/target/x86_64-loadnothing/debug/stage2: stage2/src/main.rs
 	cd stage2 && cargo build
 
 nothing.img: magic.bin stage1/boot.bin stage2/target/x86_64-loadnothing/debug/stage2
