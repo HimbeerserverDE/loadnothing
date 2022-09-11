@@ -1,5 +1,5 @@
 [bits 16]
-[org 0x7C00]
+[org 0x7c00]
 
 call boot
 
@@ -85,7 +85,7 @@ apm_connect:
 ; Set the APM Driver Version to 1.1
 apm_drv_init:
 	mov ah, 0x53   ; This is an APM command
-	mov al, 0x0E   ; APM: Set Driver Supported Version
+	mov al, 0x0e   ; APM: Set Driver Supported Version
 	mov bx, 0x0000 ; Device ID (0 is APM BIOS)
 	mov ch, 1      ; APM Driver Major Version Number
 	mov cl, 1      ; APM Driver Minor Version Number
@@ -133,8 +133,8 @@ boot:
 	mov bh, 0x07
 	mov ch, 0x00
 	mov cl, 0x00
-	mov dh, 0xFF
-	mov dl, 0xFF
+	mov dh, 0xff
+	mov dl, 0xff
 	int 0x10
 
 	; Move cursor to 0, 0 on page 0
