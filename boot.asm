@@ -3,7 +3,7 @@
 
 call boot
 
-; Print AL register
+; Print al register
 print_al:
 	mov ah, 0x0e ; TTY output
 	mov bh, 0x00 ; Page 0
