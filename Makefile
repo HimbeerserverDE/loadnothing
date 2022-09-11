@@ -21,7 +21,7 @@ nothing.img: magic.bin stage1/boot.bin stage2/target/x86_64-loadnothing/debug/st
 	dd if=magic.bin of=nothing.img bs=1 seek=510 count=2 conv=notrunc
 	dd if=stage2/target/x86_64-loadnothing/debug/stage2 of=nothing.img bs=1 seek=512 conv=notrunc
 
-vm: clean nothing.img
+vm: nothing.img
 	qemu-system-x86_64 -hda nothing.img
 
 clean:
