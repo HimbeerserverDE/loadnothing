@@ -7,7 +7,7 @@ mov ds, ax
 mov es, ax
 mov bx, 0x8000
 
-call boot
+jmp boot
 
 ; Print al register
 print_al:
