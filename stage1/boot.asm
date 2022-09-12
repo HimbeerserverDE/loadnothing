@@ -1,4 +1,3 @@
-[bits 16]
 [org 0x7c00]
 
 %define STAGE2START 0x7e00
