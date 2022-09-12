@@ -2,7 +2,7 @@
 [org 0x7c00]
 
 %define STAGE2START 0x7e00
-%define STAGE2SIZE 0xFF
+%define STAGE2SIZE 0x7f
 
 ; Initialize registers
 xor ax, ax
