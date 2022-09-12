@@ -73,7 +73,7 @@ boot:
 	xor ch, ch          ; Cylinder 0
 	mov cl, 2           ; Second sector, they start at 1
 	xor dh, dh          ; Head 0
-	xor dl, dl          ; Drive 0
+	mov dl, 0x80        ; Hard Drive 1
 	mov bx, STAGE2START ; Memory address to load stage 2 into
 	int 0x13
 
