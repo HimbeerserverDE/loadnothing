@@ -12,6 +12,12 @@ mov fs, ax
 mov gs, ax
 mov ss, ax
 
+; Initialize the stack
+; It grows down, overwriting this code
+; I have no idea what this does exactly
+mov bp, STAGE2START
+mov sp, bp
+
 jmp boot
 
 ; Print al register
