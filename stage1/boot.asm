@@ -8,7 +8,9 @@
 xor ax, ax
 mov ds, ax
 mov es, ax
-mov bx, 0x8000
+mov fs, ax
+mov gs, ax
+mov ss, ax
 
 jmp boot
 
