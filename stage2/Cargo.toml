@@ -10,5 +10,9 @@ panic = "abort"
 
 [profile.release]
 panic = "abort"
+strip = true
+opt-level = "z"
+lto = true
+codegen-units = 1
 
 [dependencies]
