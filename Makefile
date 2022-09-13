@@ -10,7 +10,7 @@ magic.bin:
 stage2/target/x86_64-loadnothing/release/stage2: stage2/src/main.rs
 	cd stage2 && cargo build --release
 
-nothing.img: magic.bin stage1/boot.bin stage2/target/x86_64-loadnothing/release/stage2
+nothing.img: magic.bin stage2/target/x86_64-loadnothing/release/stage2 stage1/boot.bin
 	dd if=/dev/zero of=nothing.img bs=32M count=1
 	parted -s nothing.img mklabel msdos
 	parted -s -a optimal nothing.img mkpart primary fat32 16MiB 100%
