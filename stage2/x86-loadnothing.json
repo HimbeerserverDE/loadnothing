@@ -12,5 +12,6 @@
 	"panic-strategy": "abort",
 	"disable-redzone": true,
 	"features": "-mmx,-sse,+soft-float",
-	"cpu": "pentium"
+	"cpu": "pentium",
+	"relocation-model": "static"
 }

@@ -9,7 +9,7 @@ magic.bin:
 
 stage2/target/x86-loadnothing/release/stage2: stage2/src/main.rs
 	cd stage2 && cargo rustc --release -- --emit=obj
-	ld -m elf_i386 -o stage2/target/x86-loadnothing/release/stage2.bin --oformat binary stage2/target/x86-loadnothing/release/stage2 -Ttext=0x7e00
+	ld -T linker.ld -m elf_i386 -o stage2/target/x86-loadnothing/release/stage2.bin --oformat binary stage2/target/x86-loadnothing/release/stage2 -Ttext=0x7e00
 	mv stage2/target/x86-loadnothing/release/stage2.bin stage2/target/x86-loadnothing/release/stage2
 
 nothing.img: magic.bin stage2/target/x86-loadnothing/release/stage2 stage1/boot.bin
