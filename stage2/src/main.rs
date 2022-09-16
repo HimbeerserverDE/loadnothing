@@ -1,6 +1,7 @@
 #![no_std]
 #![no_main]
 
+use core::arch::asm;
 use core::panic::PanicInfo;
 
 static HELLO: &[u8] = b"Hello Stage2!";
@@ -31,5 +32,9 @@ pub extern "C" fn _start() -> ! {
         }
     }
 
-    loop {}
+    unsafe {
+        loop {
+            asm!("hlt");
+        }
+    }
 }
