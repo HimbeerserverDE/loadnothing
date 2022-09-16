@@ -8,9 +8,7 @@ magic.bin:
 	echo -en "\x55\xAA" > magic.bin
 
 stage2/target/x86-loadnothing/release/stage2: stage2/src/main.rs
-	cd stage2 && cargo rustc --release -- --emit=obj
-	ld -T linker.ld -m elf_i386 -o stage2/target/x86-loadnothing/release/stage2.bin --oformat binary stage2/target/x86-loadnothing/release/stage2 -Ttext=0x7e00
-	mv stage2/target/x86-loadnothing/release/stage2.bin stage2/target/x86-loadnothing/release/stage2
+	cd stage2 && cargo rustc --release -- --emit=obj -C link-arg=-Ttext=0x7e00 -C link-arg=-Tdata=0x7e00 -C link-arg=--oformat=binary
 
 nothing.img: magic.bin stage2/target/x86-loadnothing/release/stage2 stage1/boot.bin
 	dd if=/dev/zero of=nothing.img bs=32M count=1
