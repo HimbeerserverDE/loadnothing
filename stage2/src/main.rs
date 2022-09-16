@@ -13,7 +13,17 @@ fn panic(_info: &PanicInfo) -> ! {
 #[no_mangle]
 pub extern "C" fn _start() -> ! {
     let vga_buffer = 0xb8000 as *mut u8;
+    let vga_max = 0xf9e;
 
+    // Clear the screen
+    for i in 0..vga_max {
+        unsafe {
+            *vga_buffer.offset(i as isize * 2) = 0x00;
+            *vga_buffer.offset(i as isize * 2 + 1) = 0x07;
+        }
+    }
+
+    // Print welcome message
     for (i, &byte) in HELLO.iter().enumerate() {
         unsafe {
             *vga_buffer.offset(i as isize * 2) = byte;
