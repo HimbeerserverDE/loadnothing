@@ -13,5 +13,12 @@
 	"disable-redzone": true,
 	"features": "-mmx,-sse,+soft-float",
 	"cpu": "pentium",
-	"relocation-model": "static"
+	"relocation-model": "static",
+	"pre-link-args": {
+		"ld.lld": [
+			"-Ttext=0x7e00",
+			"-Tdata=0x7e00",
+			"--oformat=binary"
+		]
+	}
 }
