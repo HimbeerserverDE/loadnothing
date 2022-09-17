@@ -17,7 +17,7 @@ nothing.img: magic.bin stage2/target/x86-loadnothing/release/stage2 stage1/boot.
 	dd if=stage2/target/x86-loadnothing/release/stage2 of=nothing.img bs=512 seek=1 conv=notrunc
 
 vm: nothing.img
-	qemu-system-x86_64 -hda nothing.img
+	qemu-system-x86_64 -drive format=raw,file=nothing.img
 
 clean:
 	rm -f magic.bin stage1/boot.bin nothing.img
