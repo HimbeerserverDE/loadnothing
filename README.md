@@ -1,7 +1,7 @@
 # loadnothing
 Can I run boot code?
 
-Requires nasm, parted, dosfstools and qemu-system-x86.
+Requires nasm and qemu-system-x86.
 
 Rust nightly needs to be installed. If no nightly toolchain shows up
 when you run `rustup toolchain list`, install it:
