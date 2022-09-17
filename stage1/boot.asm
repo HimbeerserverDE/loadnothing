@@ -20,7 +20,7 @@ mov sp, bp
 jmp boot
 
 ; Print al register
-print_al:
+print_u8:
 	mov ah, 0x0e ; TTY output
 	mov bh, 0x00 ; Page 0
 	mov bl, 0x07 ; Color: Light grey on black background
@@ -30,23 +30,25 @@ print_al:
 
 ; Call print_al on all characters in si
 ; si must be null terminated
-print_bytes_si:
+print_str:
 	mov cl, 0 ; Start with iteration 0 - equivalent of int i = 0
-print_bytes_si_loop:
-	lodsb                  ; Load next characet of si into al
-	call print_al
+.print_str_loop:
+	lodsb              ; Load next characet of si into al
 
+	cmp al, 0          ; Null terminator?
+	je .print_str_exit ; If yes, we are done
+
+	call print_u8
 	inc cl
 
-	cmp cl, ch
-	jb print_bytes_si_loop
+	jmp .print_str_loop
 
+.print_str_exit:
 	ret
 
 stage2_error:
-	mov ch, 33          ; Our string is 33 characters long
 	mov si, error
-	call print_bytes_si
+	call print_str
 
 	jmp $               ; Infinite loop
 
@@ -69,9 +71,8 @@ boot:
 	mov dl, 0             ; Column
 	int 0x10
 
-	mov ch, 33            ; Our string is 33 characters long
 	mov si, hello
-	call print_bytes_si
+	call print_str
 
 	mov ah, 0x02          ; Read sectors
 	mov al, STAGE2SECTORS ; Stage 2 size in sectors
@@ -89,7 +90,7 @@ boot:
 
 	jmp STAGE2START       ; Hand over control to stage 2
 
-hello db 'Welcome to loadnothing stage 1!', 13, 10 ; \r\n
-error db 'Error reading stage 2 from disk', 13, 10 ; \r\n
+hello db 'Welcome to loadnothing stage 1!', 13, 10, 0 ; \r\n\0
+error db 'Error reading stage 2 from disk', 13, 10, 0 ; \r\n\0
 
 times (446 - ($ - $$)) db 0x00
