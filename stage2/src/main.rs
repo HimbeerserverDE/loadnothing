@@ -1,6 +1,5 @@
 #![no_std]
 #![no_main]
-
 #![warn(clippy::arithmetic)]
 
 mod vga;

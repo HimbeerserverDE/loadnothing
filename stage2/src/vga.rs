@@ -90,7 +90,7 @@ impl Writer {
                 });
 
                 self.column_position.add_assign(1);
-            },
+            }
         }
     }
 
