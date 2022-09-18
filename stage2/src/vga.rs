@@ -71,6 +71,7 @@ pub struct Writer {
 }
 
 impl Writer {
+    #[inline(always)]
     pub fn write_byte(&mut self, byte: u8) {
         match byte {
             b'\n' => self.new_line(),
@@ -93,6 +94,7 @@ impl Writer {
         }
     }
 
+    #[inline(always)]
     pub fn write_string(&mut self, s: &str) {
         for byte in s.bytes() {
             match byte {
@@ -104,6 +106,7 @@ impl Writer {
         }
     }
 
+    #[inline(always)]
     fn new_line(&mut self) {
         if self.row_position >= BUFFER_HEIGHT {
             for row in 1..BUFFER_HEIGHT {
@@ -114,8 +117,10 @@ impl Writer {
             }
 
             self.clear_row(BUFFER_HEIGHT.sub(1));
-            self.column_position = 0;
         }
+
+        self.row_position.add_assign(1);
+        self.column_position = 0;
     }
 
     fn clear_row(&mut self, row: usize) {
@@ -138,7 +143,5 @@ pub fn test_print() {
         buffer: unsafe { &mut *(0xb8000 as *mut Buffer) },
     };
 
-    // writer.write_byte(b'A');
     writer.write_string("Hello Stage2!");
-    // writer.write_string("Hello Stage3!");
 }
