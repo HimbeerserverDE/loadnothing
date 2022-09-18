@@ -7,7 +7,7 @@ stage1/boot.bin: stage1/boot.asm
 magic.bin:
 	echo -en "\x55\xAA" > magic.bin
 
-stage2/target/x86-loadnothing/release/stage2: stage2/src/main.rs
+stage2/target/x86-loadnothing/release/stage2: stage2/src/main.rs stage2/src/vga.rs
 	cd stage2 && cargo build --release
 
 nothing.img: magic.bin stage2/target/x86-loadnothing/release/stage2 stage1/boot.bin
