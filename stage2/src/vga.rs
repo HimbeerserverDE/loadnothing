@@ -1,4 +1,6 @@
-use core::ops::{AddAssign, Shl};
+use core::ops::{AddAssign, Deref, DerefMut, Shl};
+
+use volatile::Volatile;
 
 #[allow(dead_code)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -39,12 +41,26 @@ struct ScreenChar {
     color_code: ColorCode,
 }
 
+impl Deref for ScreenChar {
+    type Target = ScreenChar;
+
+    fn deref(&self) -> &Self::Target {
+        self
+    }
+}
+
+impl DerefMut for ScreenChar {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        self
+    }
+}
+
 const BUFFER_WIDTH: usize = 80;
 const BUFFER_HEIGHT: usize = 25;
 
 #[repr(transparent)]
 struct Buffer {
-    chars: [[ScreenChar; BUFFER_WIDTH]; BUFFER_HEIGHT],
+    chars: [[Volatile<ScreenChar>; BUFFER_WIDTH]; BUFFER_HEIGHT],
 }
 
 pub struct Writer {
@@ -67,10 +83,10 @@ impl Writer {
                 let col = self.column_position;
 
                 let color_code = self.color_code;
-                self.buffer.chars[row][col] = ScreenChar {
+                self.buffer.chars[row][col].write(ScreenChar {
                     ascii_character: byte,
                     color_code,
-                };
+                });
 
                 self.column_position.add_assign(1);
             },
