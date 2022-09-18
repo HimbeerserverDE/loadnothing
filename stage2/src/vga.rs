@@ -1,4 +1,4 @@
-use core::ops::{AddAssign, Deref, DerefMut, Shl};
+use core::ops::{AddAssign, Deref, DerefMut, Shl, Sub};
 
 use volatile::Volatile;
 
@@ -105,7 +105,28 @@ impl Writer {
     }
 
     fn new_line(&mut self) {
+        if self.row_position >= BUFFER_HEIGHT {
+            for row in 1..BUFFER_HEIGHT {
+                for col in 0..BUFFER_WIDTH {
+                    let character = self.buffer.chars[row][col].read();
+                    self.buffer.chars[row.sub(1)][col].write(character);
+                }
+            }
 
+            self.clear_row(BUFFER_HEIGHT.sub(1));
+            self.column_position = 0;
+        }
+    }
+
+    fn clear_row(&mut self, row: usize) {
+        let blank = ScreenChar {
+            ascii_character: b' ',
+            color_code: self.color_code,
+        };
+
+        for col in 0..BUFFER_WIDTH {
+            self.buffer.chars[row][col].write(blank);
+        }
     }
 }
 
@@ -117,5 +138,7 @@ pub fn test_print() {
         buffer: unsafe { &mut *(0xb8000 as *mut Buffer) },
     };
 
+    // writer.write_byte(b'A');
     writer.write_string("Hello Stage2!");
+    // writer.write_string("Hello Stage3!");
 }
