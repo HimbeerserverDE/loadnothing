@@ -1,7 +1,10 @@
 #![no_std]
 #![no_main]
 
+#![warn(clippy::arithmetic)]
+
 use core::arch::asm;
+use core::ops::{Add, Mul};
 use core::panic::PanicInfo;
 
 static HELLO: &[u8] = b"Hello Stage2!";
@@ -19,16 +22,16 @@ pub extern "C" fn _start() -> ! {
     // Clear the screen
     for i in 0..vga_max {
         unsafe {
-            *vga_buffer.offset(i as isize * 2) = 0x00;
-            *vga_buffer.offset(i as isize * 2 + 1) = 0x07;
+            *vga_buffer.offset((i as isize).mul(2)) = 0x00;
+            *vga_buffer.offset((i as isize).mul(2).add(1)) = 0x07;
         }
     }
 
     // Print welcome message
     for (i, &byte) in HELLO.iter().enumerate() {
         unsafe {
-            *vga_buffer.offset(i as isize * 2) = byte;
-            *vga_buffer.offset(i as isize * 2 + 1) = 0x07;
+            *vga_buffer.offset((i as isize).mul(2)) = byte;
+            *vga_buffer.offset((i as isize).mul(2).add(1)) = 0x07;
         }
     }
 
