@@ -14,7 +14,7 @@ fn panic(_info: &PanicInfo) -> ! {
 
 #[no_mangle]
 pub extern "C" fn _start() -> ! {
-    vga::test_print();
+    vga::WRITER.lock().write_string("Hello Stage2!");
 
     unsafe {
         loop {

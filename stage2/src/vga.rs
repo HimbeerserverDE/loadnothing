@@ -1,6 +1,8 @@
 use core::ops::{AddAssign, Deref, DerefMut, Shl, Sub};
 
+use lazy_static::lazy_static;
 use volatile::Volatile;
+use spin::Mutex;
 
 #[allow(dead_code)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -135,13 +137,11 @@ impl Writer {
     }
 }
 
-pub fn test_print() {
-    let mut writer = Writer {
+lazy_static! {
+    pub static ref WRITER: Mutex<Writer> = Mutex::new(Writer {
         row_position: 1,
         column_position: 0,
-        color_code: ColorCode::new(Color::Yellow, Color::Black),
+        color_code: ColorCode::new(Color::LightGray, Color::Black),
         buffer: unsafe { &mut *(0xb8000 as *mut Buffer) },
-    };
-
-    writer.write_string("Hello Stage2!");
+    });
 }
