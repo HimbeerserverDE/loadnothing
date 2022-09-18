@@ -1,8 +1,8 @@
 use core::ops::{AddAssign, Deref, DerefMut, Shl, Sub};
 
 use lazy_static::lazy_static;
-use volatile::Volatile;
 use spin::Mutex;
+use volatile::Volatile;
 
 #[allow(dead_code)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
