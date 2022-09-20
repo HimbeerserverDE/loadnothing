@@ -73,7 +73,6 @@ pub struct Writer {
 }
 
 impl Writer {
-    #[inline(always)]
     pub fn write_byte(&mut self, byte: u8) {
         match byte {
             b'\n' => self.new_line(),
@@ -96,7 +95,6 @@ impl Writer {
         }
     }
 
-    #[inline(always)]
     pub fn write_string(&mut self, s: &str) {
         for byte in s.bytes() {
             match byte {
@@ -108,7 +106,6 @@ impl Writer {
         }
     }
 
-    #[inline(always)]
     fn new_line(&mut self) {
         if self.row_position >= BUFFER_HEIGHT {
             for row in 1..BUFFER_HEIGHT {
