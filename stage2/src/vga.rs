@@ -1,4 +1,4 @@
-use core::ops::{AddAssign, Deref, DerefMut, Shl, Sub};
+use core::ops::{AddAssign, BitOr, Deref, DerefMut, Shl, Sub};
 
 use lazy_static::lazy_static;
 use spin::Mutex;
@@ -32,7 +32,7 @@ pub struct ColorCode(u8);
 
 impl ColorCode {
     pub fn new(foreground: Color, background: Color) -> ColorCode {
-        ColorCode((background as u8).shl(4) | (foreground as u8))
+        ColorCode(((background as u8).shl(4) as u8).bitor(foreground as u8))
     }
 }
 
