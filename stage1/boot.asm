@@ -13,9 +13,11 @@ mov ss, ax
 
 ; Initialize the stack
 ; It grows down, overwriting this code
-; I have no idea what this does exactly
+; I have no idea what this does exactly (note by Lizzy: bp is base pointer, sp is stack pointer)
 mov bp, STAGE2START
 mov sp, bp
+
+push dx ; Save boot drive (will be restored when making the int 0x13 ah=0x02 call)
 
 jmp boot
 
@@ -78,8 +80,8 @@ boot:
 	mov al, STAGE2SECTORS ; Stage 2 size in sectors
 	xor ch, ch            ; Cylinder 0
 	mov cl, 2             ; Second sector, they start at 1
+	pop dx                ; Restore boot drive
 	xor dh, dh            ; Head 0
-	mov dl, 0x80          ; Hard Drive 1
 	mov bx, STAGE2START   ; Memory address to load stage 2 into
 	int 0x13
 
