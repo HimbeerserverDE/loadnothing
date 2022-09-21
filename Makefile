@@ -1,7 +1,7 @@
 default_target: vm
 .PHONY: vm clean
 
-stage1/boot.bin: stage1/boot.asm
+stage1/boot.bin: stage1/boot.asm stage2/target/x86-loadnothing/release/stage2
 	nasm -DSTAGE2SIZE=$$(du -b stage2/target/x86-loadnothing/release/stage2 | cut -f1) -f bin -o stage1/boot.bin stage1/boot.asm
 
 stage2/target/x86-loadnothing/release/stage2: stage2/src/main.rs stage2/src/vga.rs
@@ -17,5 +17,5 @@ vm: nothing.img
 	qemu-system-x86_64 -drive format=raw,file=nothing.img
 
 clean:
-	rm -f magic.bin stage1/boot.bin nothing.img
+	rm -f stage1/boot.bin nothing.img
 	cd stage2 && cargo clean
