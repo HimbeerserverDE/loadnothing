@@ -40,8 +40,3 @@ of your choice (but only if you've built it). It is exactly 32 MiB in size.
 to the wrong device.**
 
 You can then boot from the device. It should once again print "Hello Stage2!".
-
-# Developing
-It is highly recommended to run `make clean vm`.
-It takes longer to complete but is sometimes necessary
-to fully apply your changes.
